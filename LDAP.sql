@@ -4,9 +4,9 @@ CREATE TABLE `LDAP`.`parties`(
 	SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
 	`email` VARCHAR (256) CHARACTER
 	SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-		`created_at` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		`updated_at` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		PRIMARY KEY (`party_id`), UNIQUE `email` (`email`)) ENGINE = InnoDB;
+	`created_at` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`party_id`), UNIQUE `email` (`email`)) ENGINE = InnoDB;
 
 CREATE TABLE `LDAP`.`identities` (
 	`identity_id` INT NOT NULL AUTO_INCREMENT,
