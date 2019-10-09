@@ -1,16 +1,8 @@
 system.graph("entitlements").ifNotExists().create()
 
-schema.propertyKey("party_id").Int().ifNotExists().create()
-schema.propertyKey("full_name").Text().ifNotExists().create()
-schema.propertyKey("email").Text().ifNotExists().create()
+:remote config alias g entitlements.g
 
-schema.propertyKey("identity_id").Int().ifNotExists().create()
-schema.propertyKey("name").Text().ifNotExists().create()
+schema.vertexLabel("party").ifNotExists().partitionBy("party_id", Int).property("full_name", Text).property("email", Text).property("created_at", Date).property("updated_at").create()
+schema.vertexLabel("identity").ifNotExists().partitionBy("identity_id", Int).property("name", Text).property("created_at", Date).create()
 
-schema.propertyKey("created_at").Text().ifNotExists().create()
-schema.propertyKey("updated_at").Text().ifNotExists().create()
-
-schema.vertexLabel("party").partitionKey("party_id").properties("full_name", "email", "created_at", "updated_at").create()
-schema.vertexLabel("identity").partitionKey("identity_id").properties("name", "created_at").ifNotExists().create()
-
-schema.edgeLabel("is_a").properties("created_at").connection("party", "identity").ifNotExists().create()
+schema.vertexLabel("is_a").tableName("is_a").ifNotExists().from("party").to("identity").partitionBy(OUT, "party_id", "party_id").clusterBy(IN, "identity_id", "identity_id").property("created_at", Date).create()
