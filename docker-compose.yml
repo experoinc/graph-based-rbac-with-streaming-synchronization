@@ -105,38 +105,33 @@ services:
       PORT: 9021
 
   dse:
-    image: datastaxlabs/datastax-graph:6.8.0.20190912
+    image: datastaxlabs/datastax-graph:6.8.0.20190724
     hostname: dse
     container_name: dse
     environment:
       DS_LICENSE: accept
       CLUSTER_NAME: Entitlements
-      OPSCENTER_IP: dse-opscenter
-    entrypoint: /entrypoint.sh dse cassandra -f -g
+      # OPSCENTER_IP: dse-opscenter
+    command:
+      -k
+      -s
+      -g
+    cap_add:
+      - IPC_LOCK
+    ulimits:
+      memlock: -1
     ports:
-      - 8182:8182
-      - 8609:8609
-      - 8983:8983
-      - 8984:8984
-      - 7000:7000
-      - 7001:7001
-      - 7199:7199
-      - 9042:9042
-      - 9160:9160
-      - 9103:9103
-      - 10000:10000
-      - 5598:5598
-      - 5599:5599
-      - 4040:4040
-      - 7077:7077
-      - 7080:7080
-      - 7081:7081
-      - 8090:8090
-      - 9999:9999
-      - 18080:18080
+    - 4040:4040
+    - 7080:7080
+    - 7077:7077
+    - 7199:7199
+    - 8182:8182
+    - 8983:8983
+    - 9042:9042
+    - 10000:10000
 
   dse-studio:
-    image: datastaxlabs/datastax-studio:6.8.0.20190912
+    image: datastaxlabs/datastax-studio:6.8.0.20190724
     hostname: dse-studio
     container_name: dse-studio
     depends_on:
