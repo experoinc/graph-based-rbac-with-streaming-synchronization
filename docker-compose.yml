@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3'
 
 services:
   zookeeper:
@@ -105,7 +105,8 @@ services:
       PORT: 9021
 
   dse:
-    image: datastax/dse-server:6.7.4
+    image: datastaxlabs/datastax-graph:6.8.0.20190912
+    hostname: dse
     container_name: dse
     environment:
       DS_LICENSE: accept
@@ -135,7 +136,8 @@ services:
       - 18080:18080
 
   dse-studio:
-    image: datastax/dse-studio:6.7.0
+    image: datastaxlabs/datastax-studio:6.8.0.20190912
+    hostname: dse-studio
     container_name: dse-studio
     depends_on:
       - dse
@@ -144,18 +146,20 @@ services:
     ports:
       - 9091:9091
 
-  dse-opscenter:
-    image: datastax/dse-opscenter:6.7.4
-    container_name: dse-opscenter
-    depends_on:
-      - dse
-    environment:
-      DS_LICENSE: accept
-    ports:
-      - 8888:8888
+  # dse-opscenter:
+  #   image: datastax/dse-opscenter:6.7.4
+  #   hostname: dse-opscenter
+  #   container_name: dse-opscenter
+  #   depends_on:
+  #     - dse
+  #   environment:
+  #     DS_LICENSE: accept
+  #   ports:
+  #     - 8888:8888
 
   mariadb:
     image: mariadb:10
+    hostname: mariadb
     container_name: mariadb
     environment:
       MYSQL_ROOT_PASSWORD: ldap
@@ -166,6 +170,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
+    hostname: phpmyadmin
     container_name: phpmyadmin
     depends_on:
       - mariadb
