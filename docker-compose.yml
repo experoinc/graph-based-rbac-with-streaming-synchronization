@@ -136,6 +136,8 @@ services:
     container_name: dse-studio
     depends_on:
       - dse
+    links:
+      - dse
     environment:
       DS_LICENSE: accept
     ports:
