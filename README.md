@@ -46,7 +46,7 @@ Here is where things get tricky. At this point in the development of the
 cluster, you should be able to see data stream through your topics as data is
 getting inserted into your tables. The `DseSinkConnector` in its current state
 seems to be missing configuration options for directing Kafka records to
-Cassandra keyspaces/tables. In a perfect world, you would setup 3 DSE sinks
+Cassandra keyspaces/tables. In a perfect world, you would setup 4 DSE sinks (2 vertices, 2 edges)
 using the 3 Kafka topics you created, and map/direct data accordingly, which
 would then be viewable at both the Cassandra and graph levels within DSE.
 
