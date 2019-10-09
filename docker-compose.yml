@@ -105,7 +105,7 @@ services:
       PORT: 9021
 
   dse:
-    image: datastaxlabs/datastax-graph:6.8.0.20190724
+    image: datastaxlabs/datastax-graph:6.8.0.20190912
     hostname: dse
     container_name: dse
     environment:
@@ -131,7 +131,7 @@ services:
     - 10000:10000
 
   dse-studio:
-    image: datastaxlabs/datastax-studio:6.8.0.20190724
+    image: datastaxlabs/datastax-studio:6.8.0.20190912
     hostname: dse-studio
     container_name: dse-studio
     depends_on:
