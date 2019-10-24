@@ -5,7 +5,6 @@ CREATE TABLE `LDAP`.`parties`(
 	`email` VARCHAR (256) CHARACTER
 	SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`party_id`), UNIQUE `email` (`email`)) ENGINE = InnoDB;
 
 CREATE TABLE `LDAP`.`identities` (
