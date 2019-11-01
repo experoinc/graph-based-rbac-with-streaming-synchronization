@@ -104,55 +104,22 @@ services:
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       PORT: 9021
 
-  dse:
-    image: datastaxlabs/datastax-graph:6.8.0.20190912
-    hostname: dse
-    container_name: dse
-    environment:
-      DS_LICENSE: accept
-      CLUSTER_NAME: Entitlements
-      # OPSCENTER_IP: dse-opscenter
-    command:
-      -k
-      -s
-      -g
-    cap_add:
-      - IPC_LOCK
+  tigergraph:
+    image: docker.tigergraph.com/tigergraph-dev:latest
+    hostname: tigergraph
+    container_name: tigergraph
+    user: tigergraph
     ulimits:
-      memlock: -1
+      nofile:
+        soft: 1000000
+        hard: 1000000
+    tty: true
+    stdin_open: true
     ports:
-    - 4040:4040
-    - 7080:7080
-    - 7077:7077
-    - 7199:7199
-    - 8182:8182
-    - 8983:8983
-    - 9042:9042
-    - 10000:10000
-
-  dse-studio:
-    image: datastaxlabs/datastax-studio:6.8.0.20190912
-    hostname: dse-studio
-    container_name: dse-studio
-    depends_on:
-      - dse
-    links:
-      - dse
-    environment:
-      DS_LICENSE: accept
-    ports:
-      - 9091:9091
-
-  # dse-opscenter:
-  #   image: datastax/dse-opscenter:6.7.4
-  #   hostname: dse-opscenter
-  #   container_name: dse-opscenter
-  #   depends_on:
-  #     - dse
-  #   environment:
-  #     DS_LICENSE: accept
-  #   ports:
-  #     - 8888:8888
+      - 9000:9000
+      - 14240:14240
+    volumes:
+      - ./graph-data:/home/tigergraph/graph-data
 
   mariadb:
     image: mariadb:10
