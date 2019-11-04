@@ -14,9 +14,9 @@ CREATE LOADING JOB real_time_loader FOR GRAPH entitlements {
 	DEFINE FILENAME roles = "$kafka_loader:/home/tigergraph/graph-data/roles.config";
 	DEFINE FILENAME party_roles = "$kafka_loader:/home/tigergraph/graph-data/party_roles.config";
 
-	LOAD parties TO VERTEX Party ($0, $1, $2, $3) USING SEPARATOR=",";
-	LOAD roles TO VERTEX Role ($0, $1, $2) USING SEPARATOR=",";
-	LOAD party_roles TO EDGE IDENTIFIES_AS ($0, $1, $2) USING SEPARATOR=",";
+	LOAD parties TO VERTEX Party ($"party_id", $"full_name", $"email", $"created_at");
+	LOAD roles TO VERTEX Role ($"role_id", $"title", $"created_at");
+	LOAD party_roles TO EDGE IDENTIFIES_AS ($"party_id", $"role_id", $"created_at");
 }
 
 CREATE LOADING JOB load_resources FOR GRAPH entitlements {

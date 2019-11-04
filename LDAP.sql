@@ -9,10 +9,10 @@ CREATE TABLE `LDAP`.`parties`(
 
 CREATE TABLE `LDAP`.`roles` (
 	`role_id` INT NOT NULL AUTO_INCREMENT,
-	`name` VARCHAR (256) CHARACTER
+	`title` VARCHAR (256) CHARACTER
 	SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`role_id`), UNIQUE `name` (`name`)) ENGINE = InnoDB;
+	PRIMARY KEY (`role_id`), UNIQUE `title` (`title`)) ENGINE = InnoDB;
 
 CREATE TABLE `LDAP`.`party_roles` (
 	`party_id` INT NOT NULL,
@@ -25,7 +25,7 @@ ALTER TABLE `party_roles` ADD CONSTRAINT `party_id_fk` FOREIGN KEY (`party_id`)
 ALTER TABLE `party_roles` ADD CONSTRAINT `role_id_fk` FOREIGN KEY (`role_id`)
 	REFERENCES `roles`(`role_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-INSERT INTO `roles` (`role_id`, `name`, `created_at`) VALUES
+INSERT INTO `roles` (`role_id`, `title`, `created_at`) VALUES
 	(NULL, 'PRESIDENT', CURRENT_TIMESTAMP()), (NULL, 'VICE_PRESIDENT', CURRENT_TIMESTAMP()),
 	(NULL, 'MANAGER', CURRENT_TIMESTAMP()), (NULL, 'DEVELOPER', CURRENT_TIMESTAMP());
 
