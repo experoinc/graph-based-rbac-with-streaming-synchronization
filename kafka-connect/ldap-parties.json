@@ -1,0 +1,13 @@
+{
+  "name": "ldap-parties",
+  "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+  "connection.url": "jdbc:mariadb://mariadb:3306/LDAP",
+  "connection.user": "root",
+  "connection.password": "ldap",
+  "table.whitelist": [
+    "parties"
+  ],
+  "mode": "incrementing",
+  "incrementing.column.name": "party_id",
+  "topic.prefix": "ldap-"
+}

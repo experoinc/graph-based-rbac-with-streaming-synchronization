@@ -1,0 +1,15 @@
+{
+  "name": "ldap-party_roles",
+  "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+  "connection.url": "jdbc:mariadb://mariadb:3306/LDAP",
+  "connection.user": "root",
+  "connection.password": "****",
+  "table.whitelist": [
+    "party_roles"
+  ],
+  "mode": "timestamp",
+  "timestamp.column.name": [
+    "created_at"
+  ],
+  "topic.prefix": "ldap-"
+}

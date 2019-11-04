@@ -1,0 +1,13 @@
+{
+  "name": "ldap-roles",
+  "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+  "connection.url": "jdbc:mariadb://mariadb:3306/LDAP",
+  "connection.user": "root",
+  "connection.password": "ldap",
+  "table.whitelist": [
+    "roles"
+  ],
+  "mode": "incrementing",
+  "incrementing.column.name": "role_id",
+  "topic.prefix": "ldap-"
+}
