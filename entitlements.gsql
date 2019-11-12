@@ -16,9 +16,9 @@ CREATE LOADING JOB real_time_loader FOR GRAPH Entitlements {
 	DEFINE FILENAME roles = "$kafka_loader:/home/tigergraph/graph-data/roles.config";
 	DEFINE FILENAME party_roles = "$kafka_loader:/home/tigergraph/graph-data/party_roles.config";
 
-	LOAD parties TO VERTEX Party VALUES ($0, $1, $2, $3) USING separator=",";
-	LOAD roles TO VERTEX Role VALUES ($0, $1, $2) USING separator=",";
-	LOAD party_roles TO EDGE IDENTIFIED_AS VALUES ($0, $1, $2) USING separator=",";
+	LOAD parties TO VERTEX Party VALUES ($"payload":"party_id", $"payload":"full_name", $"payload":"email", $"created_at") USING JSON_FILE="true";
+	LOAD roles TO VERTEX Role VALUES ($"payload":"role_id", $"payload":"title", $"payload":"created_at") USING JSON_FILE="true";
+	LOAD party_roles TO EDGE IDENTIFIED_AS VALUES ($"payload":"party_id", $"payload":"role_id", $"payload":"created_at") USING JSON_FILE="true";
 }
 
 CREATE LOADING JOB load_resources FOR GRAPH Entitlements {
@@ -26,5 +26,5 @@ CREATE LOADING JOB load_resources FOR GRAPH Entitlements {
 	DEFINE FILENAME has_access_to = "/home/tigergraph/graph-data/has_access_to.csv";
 
 	LOAD resources TO VERTEX Resource VALUES ($"resource_id", $"name") USING header="true";
-	LOAD has_access_to TO EDGE HAS_ACCESS_TO VALUES ($"identity_id", $"resource_id") USING header="true";
+	LOAD has_access_to TO EDGE HAS_ACCESS_TO VALUES ($"role_id", $"resource_id") USING header="true";
 }
