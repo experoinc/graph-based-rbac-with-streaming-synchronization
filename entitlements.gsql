@@ -18,7 +18,7 @@ CREATE LOADING JOB real_time_loader FOR GRAPH Entitlements {
 
 	LOAD parties TO VERTEX Party VALUES ($0, $1, $2, $3) USING separator=",";
 	LOAD roles TO VERTEX Role VALUES ($0, $1, $2) USING separator=",";
-	LOAD party_roles TO EDGE IDENTIFIED_AS VALUES ($0, $1, $2, $3) USING separator=",";
+	LOAD party_roles TO EDGE IDENTIFIED_AS VALUES ($0, $1, $2) USING separator=",";
 }
 
 CREATE LOADING JOB load_resources FOR GRAPH Entitlements {
