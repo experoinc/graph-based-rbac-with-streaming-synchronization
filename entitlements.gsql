@@ -12,13 +12,13 @@ USE GRAPH Entitlements
 CREATE DATA_SOURCE KAFKA kafka_loader = "/home/tigergraph/graph-data/kafka.config" FOR GRAPH Entitlements
 
 CREATE LOADING JOB real_time_loader FOR GRAPH Entitlements {
-	DEFINE FILENAME parties = "$kafka_loader:/home/tigergraph/graph-data/parties.config";
+	DEFINE FILENAME parties = "$kafka_loader:/home/tigergraph/graph-data/parties.config" ;
 	DEFINE FILENAME roles = "$kafka_loader:/home/tigergraph/graph-data/roles.config";
 	DEFINE FILENAME party_roles = "$kafka_loader:/home/tigergraph/graph-data/party_roles.config";
 
-	LOAD parties TO VERTEX Party VALUES ($"party_id", $"full_name", $"email", $"created_at");
-	LOAD roles TO VERTEX Role VALUES ($"role_id", $"title", $"created_at");
-	LOAD party_roles TO EDGE IDENTIFIED_AS VALUES ($"party_id", $"role_id", $"created_at");
+	LOAD parties TO VERTEX Party VALUES ($0, $1, $2, $3) USING separator=",";
+	LOAD roles TO VERTEX Role VALUES ($0, $1, $2) USING separator=",";
+	LOAD party_roles TO EDGE IDENTIFIED_AS VALUES ($0, $1, $2, $3) USING separator=",";
 }
 
 CREATE LOADING JOB load_resources FOR GRAPH Entitlements {
