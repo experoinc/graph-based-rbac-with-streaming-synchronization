@@ -32,7 +32,7 @@ ALTER TABLE `party_roles` ADD CONSTRAINT `party_id_fk` FOREIGN KEY (`party_id`)
 ALTER TABLE `party_roles` ADD CONSTRAINT `role_id_fk` FOREIGN KEY (`role_id`)
 	REFERENCES `roles`(`role_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
---- Run the inserts when you have the pipeline all set up
+-- Run the inserts when you have the pipeline all set up
 
 INSERT INTO `roles` (`title`, `created_at`, `updated_at`) VALUES
 	('PRESIDENT', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()), ('VICE_PRESIDENT', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
@@ -48,7 +48,7 @@ INSERT INTO `party_roles` (`party_id`, `role_id`, `created_at`, `updated_at`) VA
 	('2', '3', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()), ('2', '4', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	('3', '2', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()), ('3', '4', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
 
---- Once the inserts have ran, try running these updates to see the changes
+-- Once the inserts have ran, try running these updates to see the changes
 
 -- This simulates a person getting fired or quitting
 UPDATE `party_roles` SET `valid` = '0' WHERE `party_roles`.`party_role_id` = 3;
