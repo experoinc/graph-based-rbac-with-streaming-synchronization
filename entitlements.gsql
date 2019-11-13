@@ -12,7 +12,7 @@ USE GRAPH Entitlements
 CREATE DATA_SOURCE KAFKA kafka_loader = "/home/tigergraph/graph-data/kafka.config" FOR GRAPH Entitlements
 
 CREATE LOADING JOB real_time_loader FOR GRAPH Entitlements {
-	DEFINE FILENAME parties = "$kafka_loader:/home/tigergraph/graph-data/parties.config" ;
+	DEFINE FILENAME parties = "$kafka_loader:/home/tigergraph/graph-data/parties.config";
 	DEFINE FILENAME roles = "$kafka_loader:/home/tigergraph/graph-data/roles.config";
 	DEFINE FILENAME party_roles = "$kafka_loader:/home/tigergraph/graph-data/party_roles.config";
 
