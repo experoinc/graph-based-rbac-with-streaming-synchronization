@@ -3,13 +3,14 @@
   "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
   "connection.url": "jdbc:mariadb://mariadb:3306/LDAP",
   "connection.user": "root",
-  "connection.password": "****",
+  "connection.password": "ldap",
   "table.whitelist": [
     "party_roles"
   ],
-  "mode": "timestamp",
+  "mode": "timestamp+incrementing",
+  "incrementing.column.name": "party_role_id",
   "timestamp.column.name": [
-    "created_at"
+    "updated_at"
   ],
   "topic.prefix": "ldap-"
 }

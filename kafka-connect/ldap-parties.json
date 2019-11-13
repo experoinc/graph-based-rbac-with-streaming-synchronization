@@ -7,7 +7,10 @@
   "table.whitelist": [
     "parties"
   ],
-  "mode": "incrementing",
+  "mode": "timestamp+incrementing",
   "incrementing.column.name": "party_id",
+  "timestamp.column.name": [
+    "updated_at"
+  ],
   "topic.prefix": "ldap-"
 }

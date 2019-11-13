@@ -1,3 +1,5 @@
+-- Create the schema
+
 CREATE TABLE `LDAP`.`parties`(
 	`party_id` INT NOT NULL AUTO_INCREMENT,
 	`full_name` TEXT CHARACTER
@@ -32,14 +34,14 @@ ALTER TABLE `party_roles` ADD CONSTRAINT `role_id_fk` FOREIGN KEY (`role_id`)
 
 --- Run the inserts when you have the pipeline all set up
 
-INSERT INTO `roles` (`role_id`, `title`, `created_at`, `updated_at`) VALUES
-	(NULL, 'PRESIDENT', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()), (NULL, 'VICE_PRESIDENT', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
-	(NULL, 'MANAGER', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()), (NULL, 'DEVELOPER', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+INSERT INTO `roles` (`title`, `created_at`, `updated_at`) VALUES
+	('PRESIDENT', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()), ('VICE_PRESIDENT', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+	('MANAGER', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()), ('EMPLOYEE', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
 
-INSERT INTO `parties` (`party_id`, `full_name`, `email`, `created_at`, `updated_at`) VALUES
-	(NULL, 'Fran Farmington', 'fran@ex.com', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
-	(NULL, 'Tristan Partin', 'tristan@ex.com', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
-	(NULL, 'Jill Hill', 'jill@ex.com', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+INSERT INTO `parties` (`full_name`, `email`, `created_at`, `updated_at`) VALUES
+	('Fran Farmington', 'fran@ex.com', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+	('Tristan Partin', 'tristan@ex.com', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+	('Jill Hill', 'jill@ex.com', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
 
 INSERT INTO `party_roles` (`party_id`, `role_id`, `created_at`, `updated_at`) VALUES
 	('1', '1', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()), ('1', '4', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
@@ -47,3 +49,7 @@ INSERT INTO `party_roles` (`party_id`, `role_id`, `created_at`, `updated_at`) VA
 	('3', '2', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()), ('3', '4', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
 
 --- Once the inserts have ran, try running these updates to see the changes
+
+-- This simulates a person getting fired or quitting
+UPDATE `party_roles` SET `valid` = '0' WHERE `party_roles`.`party_role_id` = 3;
+UPDATE `party_roles` SET `valid` = '0' WHERE `party_roles`.`party_role_id` = 4;
