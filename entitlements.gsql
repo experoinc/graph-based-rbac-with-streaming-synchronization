@@ -2,7 +2,7 @@ CREATE VERTEX Party (PRIMARY_ID party_id UINT, full_name STRING, email STRING, c
 CREATE VERTEX Role (PRIMARY_ID role_id UINT, title STRING, created_at DATETIME, updated_at DATETIME)
 CREATE VERTEX Resource (PRIMARY_ID resource_id UINT, name STRING)
 
-CREATE DIRECTED EDGE IDENTIFIED_AS (FROM Party, TO Role, created_at DATETIME, updated_at DATETIME) WITH REVERSE_EDGE="ASSIGNED_TO"
+CREATE DIRECTED EDGE IDENTIFIED_AS (FROM Party, TO Role, valid BOOL, created_at DATETIME, updated_at DATETIME) WITH REVERSE_EDGE="ASSIGNED_TO"
 CREATE DIRECTED EDGE HAS_ACCESS_TO (FROM Role, TO Resource) WITH REVERSE_EDGE="ACCESSIBLE_TO"
 
 CREATE GRAPH Entitlements (*)
@@ -18,7 +18,7 @@ CREATE LOADING JOB real_time_loader FOR GRAPH Entitlements {
 
 	LOAD parties TO VERTEX Party VALUES ($"payload":"party_id", $"payload":"full_name", $"payload":"email", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
 	LOAD roles TO VERTEX Role VALUES ($"payload":"role_id", $"payload":"title", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
-	LOAD party_roles TO EDGE IDENTIFIED_AS VALUES ($"payload":"party_id", $"payload":"role_id", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
+	LOAD party_roles TO EDGE IDENTIFIED_AS VALUES ($"payload":"party_id", $"payload":"role_id", $"payload":"valid", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
 }
 
 CREATE LOADING JOB load_resources FOR GRAPH Entitlements {
