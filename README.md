@@ -1,7 +1,7 @@
 # Entitlements in Real-Time
 
 This repository is the accompanying proof-of-concept implementation to the "Entitlements in
-Real-Time" blog post located here.
+Real-Time" blog post located [here](https://www.experoinc.com/post/graph-based-rbac-using-streaming-synchronization).
 
 There is a `docker-compose` file for getting up and running with MariaDB, a
 Confluent cluster, and a TigerGraph instance. Note the POC used a `m5a.4xlarge`
