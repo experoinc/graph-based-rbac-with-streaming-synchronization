@@ -40,12 +40,12 @@ CREATE LOADING JOB real_time_loader FOR GRAPH Entitlements {
 	LOAD people TO VERTEX Person VALUES ($"payload":"id", $"payload":"name", $"payload":"is_active", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
 
 	LOAD accesses to EDGE ACCESSED VALUES ($"payload":"person_id", $"payload":"resource_id", $"payload":"successful", $"payload":"created_at") USING JSON_FILE="true";
-	LOAD access_to TO EDGE ACCESS_TO VALUES ($"payload":"profile_id", $"payload":"resource_id", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
-	LOAD assigned_to TO EDGE ASSIGNED_TO VALUES ($"payload":"profile_id", $"payload":"person_id", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
-	LOAD child_of TO EDGE CHILD_OF VALUES ($"payload":"child_id", $"payload":"parent_id", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
-	LOAD identified_by TO EDGE IDENTIFIED_BY VALUES ($"payload":"party_id", $"payload":"person_id", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
-	LOAD managed_by TO EDGE MANAGED_BY VALUES ($"payload":"party_id", $"payload":"manager_id", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
-	LOAD manages_people TO EDGE MANAGES_PERSON VALUES ($"payload":"party_id", $"payload":"person_id", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
-	LOAD manages_profiles TO EDGE MANAGES_PROFILE VALUES ($"payload":"party_id", $"payload":"profile_id", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
-	LOAD subresource_of TO EDGE SUBRESOURCE_OF VALUES ($"payload":"subresource_id", $"payload":"resource_id", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
+	LOAD access_to TO EDGE ACCESS_TO VALUES ($"payload":"profile_id", $"payload":"resource_id") USING JSON_FILE="true";
+	LOAD assigned_to TO EDGE ASSIGNED_TO VALUES ($"payload":"profile_id", $"payload":"person_id") USING JSON_FILE="true";
+	LOAD child_of TO EDGE CHILD_OF VALUES ($"payload":"child_id", $"payload":"parent_id") USING JSON_FILE="true";
+	LOAD identified_by TO EDGE IDENTIFIED_BY VALUES ($"payload":"party_id", $"payload":"person_id") USING JSON_FILE="true";
+	LOAD managed_by TO EDGE MANAGED_BY VALUES ($"payload":"party_id", $"payload":"manager_id") USING JSON_FILE="true";
+	LOAD manages_people TO EDGE MANAGES_PERSON VALUES ($"payload":"party_id", $"payload":"person_id") USING JSON_FILE="true";
+	LOAD manages_profiles TO EDGE MANAGES_PROFILE VALUES ($"payload":"party_id", $"payload":"profile_id") USING JSON_FILE="true";
+	LOAD subresource_of TO EDGE SUBRESOURCE_OF VALUES ($"payload":"subresource_id", $"payload":"resource_id") USING JSON_FILE="true";
 }
