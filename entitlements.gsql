@@ -32,10 +32,10 @@ CREATE LOADING JOB real_time_loader FOR GRAPH Entitlements {
 	DEFINE FILENAME manages_profiles = "$kafka_loader:/home/tigergraph/graph-data/manages_profiles.config";
 	DEFINE FILENAME subresource_of = "$kafka_loader:/home/tigergraph/graph-data/subresource_of.config";
 
-	LOAD parties TO VERTEX Party VALUES ($"payload":"party_id", $"payload":"full_name", $"payload":"email", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
-	LOAD resources TO VERTEX Resource VALUES ($"payload":"resource_id", $"payload":"name", $"payload":"type", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
-	LOAD profiles TO VERTEX Profile VALUES ($"payload":"profile_id", $"payload":"name", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
-	LOAD people TO VERTEX Person VALUES ($"payload":"person_id", $"payload":"name", $"payload":"is_active", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
+	LOAD parties TO VERTEX Party VALUES ($"payload":"id", $"payload":"full_name", $"payload":"email", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
+	LOAD resources TO VERTEX Resource VALUES ($"payload":"id", $"payload":"name", $"payload":"type", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
+	LOAD profiles TO VERTEX Profile VALUES ($"payload":"id", $"payload":"name", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
+	LOAD people TO VERTEX Person VALUES ($"payload":"id", $"payload":"name", $"payload":"is_active", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
 
 	LOAD access_to TO EDGE ACCESS_TO VALUES ($"payload":"profile_id", $"payload":"resource_id", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
 	LOAD assigned_to TO EDGE ASSIGNED_TO VALUES ($"payload":"profile_id", $"payload":"person_id", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";

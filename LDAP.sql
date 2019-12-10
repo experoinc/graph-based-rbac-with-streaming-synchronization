@@ -1,102 +1,102 @@
 -- Create the schema
 
 CREATE TABLE `LDAP`.`parties`(
-	`party_id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`name` TEXT CHARACTER
 	SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
 	`party_type` TEXT CHARACTER
 	SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`party_id`)) ENGINE = InnoDB;
+	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 CREATE TABLE `LDAP`.`resources`(
-	`resource_id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`name` TEXT CHARACTER
 	SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
 	`type` TEXT CHARACTER
 	SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`resource_id`)) ENGINE = InnoDB;
+	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 CREATE TABLE `LDAP`.`profiles`(
-	`profile_id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`name` TEXT CHARACTER
 	SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`profile_id`)) ENGINE = InnoDB;
+	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 CREATE TABLE `LDAP`.`people` (
-	`person_id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`name` TEXT CHARACTER
 	SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
 	`is_active` BOOLEAN NOT NULL DEFAULT TRUE,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`person_id`)) ENGINE = InnoDB;
+	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
 CREATE TABLE `LDAP`.`access_to` (
-	`access_to_id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`profile_id` INT NOT NULL,
 	`resource_id` INT NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`access_to_id`)) ENGINE = InnoDB;
+	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 CREATE TABLE `LDAP`.`assigned_to` (
 	`assigned_to_id` INT NOT NULL AUTO_INCREMENT,
 	`profile_id` INT NOT NULL,
 	`person_id` INT NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`assigned_to_id`)) ENGINE = InnoDB;
+	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 CREATE TABLE `LDAP`.`child_of` (
-	`child_of_id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`child_id` INT NOT NULL,
 	`parent_id` INT NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`child_of_id`)) ENGINE = InnoDB;
+	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 CREATE TABLE `LDAP`.`identified_by` (
-	`identified_by_id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`party_id` INT NOT NULL,
 	`person_id` INT NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`identified_by_id`)) ENGINE = InnoDB;
+	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 CREATE TABLE `LDAP`.`managed_by` (
-	`managed_by_id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`party_id` INT NOT NULL,
 	`manager_id` INT NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`managed_by_id`)) ENGINE = InnoDB;
+	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 CREATE TABLE `LDAP`.`manages_people` (
-	`manages_people_id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`party_id` INT NOT NULL,
 	`person_id` INT NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`manages_people_id`)) ENGINE = InnoDB;
+	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 CREATE TABLE `LDAP`.`manages_profiles` (
-	`manages_profiles_id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`party_id` INT NOT NULL,
 	`profile_id` INT NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`manages_profiles_id`)) ENGINE = InnoDB;
+	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 CREATE TABLE `LDAP`.`owns` (
-	`owns_id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`party_id` INT NOT NULL,
 	`resource_id` INT NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`owns_id`)) ENGINE = InnoDB;
+	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 CREATE TABLE `LDAP`.`subresource_of` (
-	`subresource_of_id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`subresource_id` INT NOT NULL,
 	`resource_id` INT NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`subresource_of_id`)) ENGINE = InnoDB;
+	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
 ALTER TABLE `access_to` ADD CONSTRAINT `access_to_profile_fk`
 	FOREIGN KEY (`profile_id`) REFERENCES `profiles`(`profile_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -137,13 +137,13 @@ ALTER TABLE `subresource_of` ADD CONSTRAINT `subresource_of_resource_fk`
 
 -- Run the inserts when you have the pipeline all set up
 
-INSERT INTO `parties` (`party_id`, `name`, `party_type`, `created_at`, `updated_at`) VALUES
+INSERT INTO `parties` (`id`, `name`, `party_type`, `created_at`, `updated_at`) VALUES
 	(0, 'Boss', 'Organizer', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(1, 'Underboss', 'Organizer', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(2, 'Consiglieri', 'Organizer', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(3, 'Caporegime', 'Organizer', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(4, 'Button', 'Soldier', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
-INSERT INTO `people` (`person_id`, `name`, `is_active`, `created_at`, `updated_at`) VALUES
+INSERT INTO `people` (`id`, `name`, `is_active`, `created_at`, `updated_at`) VALUES
 	(10, 'Don Corleone', TRUE, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(11, 'Fredo Corleone', TRUE, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(12, 'Thomas Hagen', TRUE, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
@@ -157,13 +157,13 @@ INSERT INTO `people` (`person_id`, `name`, `is_active`, `created_at`, `updated_a
 	(20, "Natale 'Fat Nat' Parri", TRUE, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(21, "Roberto 'Thunder Bob' Nelenza", TRUE, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(22, "Joseph 'Joey Jail' Bronski", TRUE, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
-INSERT INTO `profiles` (`profile_id`, `name`, `created_at`, `updated_at`) VALUES
+INSERT INTO `profiles` (`id`, `name`, `created_at`, `updated_at`) VALUES
 	(40, 'Boss', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(41, 'Upper Management', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(42, 'Threats', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(43, 'Business', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(44, 'Cleanup', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
-INSERT INTO `resources` (`resource_id`, `name`, `type`, `created_at`, `updated_at`) VALUES
+INSERT INTO `resources` (`id`, `name`, `type`, `created_at`, `updated_at`) VALUES
 	(30, 'Handgun', 'weapon', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(31, 'Machine Gun', 'weapon', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(32, 'Shovel', 'tool', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
