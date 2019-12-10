@@ -1,5 +1,5 @@
 CREATE VERTEX Party (PRIMARY_ID party_id UINT, name STRING, party_type STRING, created_at DATETIME, updated_at DATETIME)
-CREATE VERTEX Resource (PRIMARY_ID resource_id UINT, name STRING, type STRING, created_at DATETIME, updated_at DATETIME)
+CREATE VERTEX Resource (PRIMARY_ID resource_id UINT, name STRING, resource_type STRING, created_at DATETIME, updated_at DATETIME)
 CREATE VERTEX Profile (PRIMARY_ID profile_id UINT, name STRING, created_at DATETIME, updated_at DATETIME)
 CREATE VERTEX Person (PRIMARY_ID person_id UINT, name STRING, is_active BOOL, created_at DATETIME, updated_at DATETIME)
 
