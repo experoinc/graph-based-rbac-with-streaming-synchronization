@@ -3,6 +3,7 @@ CREATE VERTEX Resource (PRIMARY_ID resource_id UINT, name STRING, type STRING, c
 CREATE VERTEX Profile (PRIMARY_ID profile_id UINT, name STRING, created_at DATETIME, updated_at DATETIME)
 CREATE VERTEX Person (PRIMARY_ID person_id UINT, name STRING, is_active BOOL, created_at DATETIME, updated_at DATETIME)
 
+CREATE DIRECTED EDGE ACCESSED (FROM Person, TO Resource, successful BOOL, created_at DATETIME)
 CREATE DIRECTED EDGE ACCESS_TO (FROM Profile, TO Resource)
 CREATE DIRECTED EDGE ASSIGNED_TO (FROM Profile, TO Person)
 CREATE DIRECTED EDGE CHILD_OF (FROM Party, TO Party)
@@ -20,9 +21,10 @@ CREATE DATA_SOURCE KAFKA kafka_loader = "/home/tigergraph/graph-data/kafka.confi
 
 CREATE LOADING JOB real_time_loader FOR GRAPH Entitlements {
 	DEFINE FILENAME parties = "$kafka_loader:/home/tigergraph/graph-data/parties.config";
-	DEFINE FILENAME resources = "$kafka_loader:/home/tigergraph/graph-data/parties.config";
-	DEFINE FILENAME profiles = "$kafka_loader:/home/tigergraph/graph-data/parties.config";
-	DEFINE FILENAME people = "$kafka_loader:/home/tigergraph/graph-data/parties.config";
+	DEFINE FILENAME resources = "$kafka_loader:/home/tigergraph/graph-data/resources.config";
+	DEFINE FILENAME profiles = "$kafka_loader:/home/tigergraph/graph-data/profiles.config";
+	DEFINE FILENAME people = "$kafka_loader:/home/tigergraph/graph-data/people.config";
+	DEFINE FILENAME accesses = "$kafka_loader:/home/tigergraph/graph-data/accesses.config";
 	DEFINE FILENAME access_to = "$kafka_loader:/home/tigergraph/graph-data/access_to.config";
 	DEFINE FILENAME assigned_to = "$kafka_loader:/home/tigergraph/graph-data/assigned_to.config";
 	DEFINE FILENAME child_of = "$kafka_loader:/home/tigergraph/graph-data/child_of.config";
@@ -37,6 +39,7 @@ CREATE LOADING JOB real_time_loader FOR GRAPH Entitlements {
 	LOAD profiles TO VERTEX Profile VALUES ($"payload":"id", $"payload":"name", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
 	LOAD people TO VERTEX Person VALUES ($"payload":"id", $"payload":"name", $"payload":"is_active", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
 
+	LOAD accesses to EDGE ACCESSED VALUES ($"payload":"person_id", $"payload":"resource_id", $"payload":"successful", $"payload":"created_at") USING JSON_FILE="true";
 	LOAD access_to TO EDGE ACCESS_TO VALUES ($"payload":"profile_id", $"payload":"resource_id", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
 	LOAD assigned_to TO EDGE ASSIGNED_TO VALUES ($"payload":"profile_id", $"payload":"person_id", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
 	LOAD child_of TO EDGE CHILD_OF VALUES ($"payload":"child_id", $"payload":"parent_id", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";

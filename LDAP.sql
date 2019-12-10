@@ -34,6 +34,14 @@ CREATE TABLE `LDAP`.`people` (
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
+CREATE TABLE `LDAP`.`accesses` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`person_id` INT NOT NULL,
+	`resource_id` INT NOT NULL,
+	`successful` BOOLEAN NOT NULL,
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 CREATE TABLE `LDAP`.`access_to` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`profile_id` INT NOT NULL,
@@ -42,7 +50,7 @@ CREATE TABLE `LDAP`.`access_to` (
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 CREATE TABLE `LDAP`.`assigned_to` (
-	`assigned_to_id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`profile_id` INT NOT NULL,
 	`person_id` INT NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -98,42 +106,46 @@ CREATE TABLE `LDAP`.`subresource_of` (
 	`updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
+ALTER TABLE `accesses` ADD CONSTRAINT `accesses_person_fk`
+	FOREIGN KEY (`person_id`) REFERENCES `people`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `accesses` ADD CONSTRAINT `accesses_resource_fk`
+	FOREIGN KEY (`resource_id`) REFERENCES `resources`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `access_to` ADD CONSTRAINT `access_to_profile_fk`
-	FOREIGN KEY (`profile_id`) REFERENCES `profiles`(`profile_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`profile_id`) REFERENCES `profiles`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `access_to` ADD CONSTRAINT `access_to_resource_fk`
-	FOREIGN KEY (`resource_id`) REFERENCES `resources`(`resource_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`resource_id`) REFERENCES `resources`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `assigned_to` ADD CONSTRAINT `assigned_to_profile_fk`
-	FOREIGN KEY (`profile_id`) REFERENCES `profiles`(`profile_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`profile_id`) REFERENCES `profiles`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `assigned_to` ADD CONSTRAINT `assigned_to_person_fk`
-	FOREIGN KEY (`person_id`) REFERENCES `people`(`person_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`person_id`) REFERENCES `people`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `child_of` ADD CONSTRAINT `child_of_child_fk`
-	FOREIGN KEY (`child_id`) REFERENCES `parties`(`party_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`child_id`) REFERENCES `parties`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `child_of` ADD CONSTRAINT `child_of_parent_fk`
-	FOREIGN KEY (`parent_id`) REFERENCES `parties`(`party_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`parent_id`) REFERENCES `parties`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `identified_by` ADD CONSTRAINT `identified_by_party_fk`
-	FOREIGN KEY (`party_id`) REFERENCES `parties`(`party_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`party_id`) REFERENCES `parties`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `identified_by` ADD CONSTRAINT `identified_by_person_fk`
-	FOREIGN KEY (`person_id`) REFERENCES `people`(`person_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`person_id`) REFERENCES `people`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `managed_by` ADD CONSTRAINT `managed_by_party_fk`
-	FOREIGN KEY (`party_id`) REFERENCES `parties`(`party_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`party_id`) REFERENCES `parties`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `managed_by` ADD CONSTRAINT `managed_by_manager_fk`
-	FOREIGN KEY (`manager_id`) REFERENCES `parties`(`party_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`manager_id`) REFERENCES `parties`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `manages_people` ADD CONSTRAINT `manages_people_party_fk`
-	FOREIGN KEY (`party_id`) REFERENCES `parties`(`party_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`party_id`) REFERENCES `parties`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `manages_people` ADD CONSTRAINT `manages_people_person_fk`
-	FOREIGN KEY (`person_id`) REFERENCES `people`(`person_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`person_id`) REFERENCES `people`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `manages_profiles` ADD CONSTRAINT `manages_profiles_party_fk`
-	FOREIGN KEY (`party_id`) REFERENCES `parties`(`party_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`party_id`) REFERENCES `parties`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `manages_profiles` ADD CONSTRAINT `manages_profiles_profile_fk`
-	FOREIGN KEY (`profile_id`) REFERENCES `profiles`(`profile_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`profile_id`) REFERENCES `profiles`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `owns` ADD CONSTRAINT `owns_party_fk`
-	FOREIGN KEY (`party_id`) REFERENCES `parties`(`party_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`party_id`) REFERENCES `parties`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `owns` ADD CONSTRAINT `owns_resource_fk`
-	FOREIGN KEY (`resource_id`) REFERENCES `resources`(`resource_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`resource_id`) REFERENCES `resources`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `subresource_of` ADD CONSTRAINT `subresource_of_subresource_fk`
-	FOREIGN KEY (`subresource_id`) REFERENCES `resources`(`resource_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`subresource_id`) REFERENCES `resources`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `subresource_of` ADD CONSTRAINT `subresource_of_resource_fk`
-	FOREIGN KEY (`resource_id`) REFERENCES `resources`(`resource_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+	FOREIGN KEY (`resource_id`) REFERENCES `resources`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 -- Run the inserts when you have the pipeline all set up
 
@@ -172,6 +184,32 @@ INSERT INTO `resources` (`id`, `name`, `type`, `created_at`, `updated_at`) VALUE
 	(35, 'The Ledger', 'accounting', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(36, 'Horse Head', 'tool', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
 
+INSERT INTO `accesses` (`person_id`, `resource_id`, `successful`, `created_at`) VALUES
+	(10, 35, TRUE),
+	(12, 30, TRUE),
+	(13, 30, TRUE),
+	(14, 30, TRUE),
+	(15, 30, TRUE),
+	(21, 33, TRUE),
+	(21, 36, TRUE),
+	(21, 34, FALSE),
+	(21, 31, TRUE),
+	(11, 35, FALSE),
+	(11, 33, TRUE),
+	(11, 32, TRUE),
+	(11, 34, TRUE),
+	(18, 30, TRUE),
+	(19, 30, TRUE),
+	(20, 30, TRUE),
+	(21, 30, TRUE),
+	(22, 30, TRUE),
+	(18, 31, TRUE),
+	(19, 31, TRUE),
+	(20, 31, TRUE),
+	(21, 31, TRUE),
+	(22, 31, FALSE),
+	(22, 32, FALSE),
+	(17, 32, TRUE);
 INSERT INTO `access_to` (`profile_id`, `resource_id`, `created_at`, `updated_at`) VALUES
 	(40, 34, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
 	(40, 35, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
