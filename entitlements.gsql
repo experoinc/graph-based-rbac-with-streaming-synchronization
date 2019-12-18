@@ -33,7 +33,7 @@ CREATE LOADING JOB real_time_loader FOR GRAPH Entitlements {
 	DEFINE FILENAME managed_by = "$kafka_loader:/home/tigergraph/graph-data/managed_by.config";
 	DEFINE FILENAME manages_people = "$kafka_loader:/home/tigergraph/graph-data/manages_people.config";
 	DEFINE FILENAME manages_profiles = "$kafka_loader:/home/tigergraph/graph-data/manages_profiles.config";
-	DEFINE FILENAME manages_profiles = "$kafka_loader:/home/tigergraph/graph-data/owns.config";
+	DEFINE FILENAME owns = "$kafka_loader:/home/tigergraph/graph-data/owns.config";
 	DEFINE FILENAME subresource_of = "$kafka_loader:/home/tigergraph/graph-data/subresource_of.config";
 
 	LOAD parties TO VERTEX Party VALUES ($"payload":"id", $"payload":"name", $"payload":"party_type", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
