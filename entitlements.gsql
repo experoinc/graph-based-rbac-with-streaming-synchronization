@@ -11,6 +11,7 @@ CREATE DIRECTED EDGE IDENTIFIED_BY (FROM Party, TO Person)
 CREATE DIRECTED EDGE MANAGED_BY (FROM Party, TO Party)
 CREATE DIRECTED EDGE MANAGES_PERSON (FROM Party, TO Person)
 CREATE DIRECTED EDGE MANAGES_PROFILE (FROM Party, TO Profile)
+CREATE DIRECTED EDGE OWNS (FROM Party, TO Resource)
 CREATE DIRECTED EDGE SUBRESOURCE_OF (FROM Resource, TO Resource)
 
 CREATE GRAPH Entitlements (*)
@@ -32,6 +33,7 @@ CREATE LOADING JOB real_time_loader FOR GRAPH Entitlements {
 	DEFINE FILENAME managed_by = "$kafka_loader:/home/tigergraph/graph-data/managed_by.config";
 	DEFINE FILENAME manages_people = "$kafka_loader:/home/tigergraph/graph-data/manages_people.config";
 	DEFINE FILENAME manages_profiles = "$kafka_loader:/home/tigergraph/graph-data/manages_profiles.config";
+	DEFINE FILENAME manages_profiles = "$kafka_loader:/home/tigergraph/graph-data/owns.config";
 	DEFINE FILENAME subresource_of = "$kafka_loader:/home/tigergraph/graph-data/subresource_of.config";
 
 	LOAD parties TO VERTEX Party VALUES ($"payload":"id", $"payload":"name", $"payload":"party_type", $"payload":"created_at", $"payload":"updated_at") USING JSON_FILE="true";
@@ -47,5 +49,6 @@ CREATE LOADING JOB real_time_loader FOR GRAPH Entitlements {
 	LOAD managed_by TO EDGE MANAGED_BY VALUES ($"payload":"party_id", $"payload":"manager_id") USING JSON_FILE="true";
 	LOAD manages_people TO EDGE MANAGES_PERSON VALUES ($"payload":"party_id", $"payload":"person_id") USING JSON_FILE="true";
 	LOAD manages_profiles TO EDGE MANAGES_PROFILE VALUES ($"payload":"party_id", $"payload":"profile_id") USING JSON_FILE="true";
+	LOAD owns TO EDGE OWNS VALUES ($"payload":"party_id", $"payload":"resource_id") USING JSON_FILE="true";
 	LOAD subresource_of TO EDGE SUBRESOURCE_OF VALUES ($"payload":"subresource_id", $"payload":"resource_id") USING JSON_FILE="true";
 }
